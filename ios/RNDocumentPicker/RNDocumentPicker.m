@@ -179,11 +179,5 @@ RCT_EXPORT_METHOD(pick:(NSDictionary *)options
     }
 }
 
-- (NSMutableArray *)composeCallbacks {
-    if(_composeCallbacks == nil) {
-        _composeCallbacks = [[NSMutableArray alloc] init];
-    }
-    return _composeCallbacks;
-}
 
 @end
