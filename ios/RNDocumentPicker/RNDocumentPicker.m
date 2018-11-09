@@ -25,6 +25,7 @@ static NSString *const FIELD_SIZE = @"size";
 @end
 
 @implementation RNDocumentPicker {
+
     NSMutableArray *composeViews;
     NSMutableArray *composeResolvers;
     NSMutableArray *composeRejecters;
@@ -53,6 +54,7 @@ static NSString *const FIELD_SIZE = @"size";
 
 RCT_EXPORT_MODULE()
 
+
 RCT_EXPORT_METHOD(pick:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -62,7 +64,6 @@ RCT_EXPORT_METHOD(pick:(NSDictionary *)options
     
     [composeResolvers addObject:resolve];
     [composeRejecters addObject:reject];
-    
     documentPicker.delegate = self;
     documentPicker.modalPresentationStyle = UIModalPresentationFormSheet;
     
@@ -93,8 +94,7 @@ RCT_EXPORT_METHOD(pick:(NSDictionary *)options
         
         if (!fileError) {
             [result setValue:newURL.absoluteString forKey:FIELD_URI];
-            [result setValue:[newURL lastPathComponent] forKey:FIELD_NAME];
-            
+            [result setValue:[newURL lastPathComponent] forKey:FIELD_NAME];           
             NSError *attributesError = nil;
             NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:newURL.path error:&attributesError];
             if(!attributesError) {
@@ -177,6 +177,13 @@ RCT_EXPORT_METHOD(pick:(NSDictionary *)options
         
         reject(E_DOCUMENT_PICKER_CANCELED, @"User canceled document picker", nil);
     }
+}
+
+- (NSMutableArray *)composeCallbacks {
+    if(_composeCallbacks == nil) {
+        _composeCallbacks = [[NSMutableArray alloc] init];
+    }
+    return _composeCallbacks;
 }
 
 @end
